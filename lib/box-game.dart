@@ -1,9 +1,21 @@
 import 'dart:ui';
 
+import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
+import 'package:newprojectx/player.dart';
 
 class BoxGame extends Game {
   Size screenSize;
+  Player player;
+
+  BoxGame() {
+    initialize();
+  }
+
+  void initialize() async {
+    resize(await Flame.util.initialDimensions());
+    player = Player(this, screenSize.width/2, screenSize.height/2);
+  }
 
   void render(Canvas canvas) { 
     //Draw background
@@ -12,26 +24,24 @@ class BoxGame extends Game {
     bgPaint.color = Color(0xff000000);
     canvas.drawRect(bgRect, bgPaint);
 
-    //Draw box
-    double screenCenterX = screenSize.width / 2;
-    double screenCenterY = screenSize.height / 2;
-    Rect boxRect = Rect.fromLTWH(
-    screenCenterX - 25,
-    screenCenterY - 25,
-    50,
-    50
-    );
-    Paint boxPaint = Paint();
-    boxPaint.color = Color(0xffffffff);
-    canvas.drawRect(boxRect, boxPaint);
+    player.render(canvas);
   }
 
   void update(double t) {
     // TODO: implement update
   }
+  
 
   void resize(Size size) {
     screenSize = size;
     super.resize(size);
+  }
+
+  void onSensorInput(double aAlpha, double aBeta, double aGamma, double gAlpha, double gBeta, double gGamma) {
+    player.onSensorInput(aAlpha, aBeta, aGamma, gAlpha, gBeta, gGamma);
+  }
+
+  void onButtonPressed(bool button) {
+    player.onButtonPressed(button);
   }
 }

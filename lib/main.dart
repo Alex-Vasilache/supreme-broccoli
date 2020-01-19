@@ -1,3 +1,4 @@
+import 'package:flame/util.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -23,12 +24,22 @@ class _MyAppState extends State<MyApp> {
   String _accl = '';
   String _gyro = '';
   bool _button = false;
-  int _aAlpha;
-  int _aBeta;
-  int _aGamma;
-  int _gAlpha;
-  int _gBeta;
-  int _gGamma;
+  double _aAlpha;
+  double _aBeta;
+  double _aGamma;
+  double _gAlpha;
+  double _gBeta;
+  double _gGamma;
+
+  double _maxaAlpha = -999999;
+  double _maxaBeta= -999999;
+  double _maxaGamma= -999999;
+  double _maxgAlpha= -999999;
+  double _maxgBeta= -999999;
+  double _maxgGamma= -999999;
+
+
+  BoxGame game = BoxGame();
 
   // the name of the eSense device to connect to -- change this to your own device.
   String eSenseName = 'eSense-0414';
@@ -91,6 +102,7 @@ class _MyAppState extends State<MyApp> {
             break;
           case ButtonEventChanged:
             _button = (event as ButtonEventChanged).pressed ? true : false;
+            game.onButtonPressed(_button);
             break;
           case AccelerometerOffsetRead:
           // TODO
@@ -132,12 +144,19 @@ class _MyAppState extends State<MyApp> {
         _packetIndex = int.parse(_event.substring(_event.indexOf("packetIndex: ") + 13 ,_event.indexOf("accl:") - 2));
         _accl = _event.substring(_event.indexOf("accl: ") + 6 , _event.indexOf("gyro:") - 2);
         _gyro = _event.substring(_event.indexOf("gyro: ") + 6);
-        _aAlpha = (int.parse(_accl.substring(_accl.indexOf("[") + 1, _accl.indexOf(",")))/100).ceil();
-        _aBeta = (int.parse(_accl.substring(_accl.indexOf(",") + 1, _accl.lastIndexOf(",")))/100).ceil();
-        _aGamma = (int.parse(_accl.substring(_accl.lastIndexOf(",") + 1, _accl.lastIndexOf("]")))/100).ceil();
-        _gAlpha = (int.parse(_gyro.substring(_gyro.indexOf("[") + 1, _gyro.indexOf(",")))/100).ceil();
-        _gBeta = (int.parse(_gyro.substring(_gyro.indexOf(",") + 1, _gyro.lastIndexOf(",")))/100).ceil();
-        _gGamma = (int.parse(_gyro.substring(_gyro.lastIndexOf(",") + 1, _gyro.lastIndexOf("]")))/100).ceil();
+        _aAlpha = double.parse(_accl.substring(_accl.indexOf("[") + 1, _accl.indexOf(",")))/100;
+        _aBeta = double.parse(_accl.substring(_accl.indexOf(",") + 1, _accl.lastIndexOf(",")))/100;
+        _aGamma = double.parse(_accl.substring(_accl.lastIndexOf(",") + 1, _accl.lastIndexOf("]")))/100;
+        _gAlpha = double.parse(_gyro.substring(_gyro.indexOf("[") + 1, _gyro.indexOf(",")))/100;
+        _gBeta = double.parse(_gyro.substring(_gyro.indexOf(",") + 1, _gyro.lastIndexOf(",")))/100;
+        _gGamma = double.parse(_gyro.substring(_gyro.lastIndexOf(",") + 1, _gyro.lastIndexOf("]")))/100;
+        if(_aAlpha > _maxaAlpha) { _maxaAlpha = _aAlpha; }
+        if(_aBeta > _maxaBeta) { _maxaBeta = _aBeta; }
+        if(_aGamma > _maxaGamma) { _maxaGamma = _aGamma; }
+        if(_gAlpha > _maxgAlpha) { _maxgAlpha = _gAlpha; }
+        if(_gBeta > _maxgBeta) { _maxgBeta = _gBeta; }
+        if(_gGamma > _maxgGamma) { _maxgGamma = _gGamma; }
+        game.onSensorInput(_aAlpha,_aBeta,_aGamma,_gAlpha,_gBeta,_gGamma);
       });
     });
     setState(() {
@@ -159,8 +178,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   Widget build(BuildContext context) {
-    BoxGame game = BoxGame();
-
+    
+    
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -184,6 +203,14 @@ class _MyAppState extends State<MyApp> {
               Text('gAlpha: $_gAlpha'),
               Text('gBeta: $_gBeta'),
               Text('gGamma: $_gGamma'),
+              Text(''),
+              Text('aAlpha: $_maxaAlpha'),
+              Text('aBeta: $_maxaBeta'),
+              Text('aGamma: $_maxaGamma'),
+              Text(''),
+              Text('gAlpha: $_maxgAlpha'),
+              Text('gBeta: $_maxgBeta'),
+              Text('gGamma: $_maxgGamma'),
               new  FloatingActionButton(
                 // a floating button that starts/stops listening to sensor events.
                 // is disabled until we're connected to the device.
