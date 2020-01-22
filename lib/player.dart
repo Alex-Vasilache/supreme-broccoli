@@ -1,24 +1,24 @@
 import 'dart:ui';
 import 'package:newprojectx/box-game.dart';
+import 'package:flame/sprite.dart';
 
 class Player {
 
   final BoxGame game;
   Rect playerRect;
-  Paint playerPaint;
   double middleX;
   double middleY;
+  Sprite crosshair =  Sprite('crosshairs_small.png');
 
   Player(this.game, double x, double y) {
     middleX = x;
     middleY = y;
-    playerRect = Rect.fromLTWH(x - 10, y - 10, 20, 20);
-    playerPaint = Paint();
-    playerPaint.color = Color(0xffffffff);
+    playerRect = Rect.fromLTWH(x - game.tileSize*2, y - game.tileSize*2, game.tileSize*4, game.tileSize*4);
   }
 
   void render(Canvas c) {
-    c.drawRect(playerRect, playerPaint);
+    //c.drawRect(playerRect, playerPaint);
+    crosshair.renderRect(c, playerRect);
   }
 
   void update(double t){
@@ -26,11 +26,17 @@ class Player {
   }
 
   void onSensorInput(double aAlpha, double aBeta, double aGamma,double gAlpha, double gBeta, double gGamma) {
-    if(isInside(gAlpha, 0))
+    if(isInside(gAlpha, 0)){
       playerRect = playerRect.translate(gAlpha, 0);
+      middleX = middleX + gAlpha;
+    }
+      
 
-     if(isInside(0, gGamma))
-      playerRect = playerRect.translate(0, gGamma + 1.6);
+     if(isInside(0, gGamma)) {
+       playerRect = playerRect.translate(0, gGamma + 1.6);
+       middleY = middleY + gGamma + 1.6;
+     }
+      
     
   }
 

@@ -1,3 +1,4 @@
+import 'package:flame/flame.dart';
 import 'package:flame/util.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -5,6 +6,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:esense_flutter/esense.dart';
 import 'package:newprojectx/box-game.dart';
+import 'package:flutter/gestures.dart';
 
 void main() => runApp(MyApp());
 
@@ -40,6 +42,7 @@ class _MyAppState extends State<MyApp> {
 
 
   BoxGame game = BoxGame();
+  
 
   // the name of the eSense device to connect to -- change this to your own device.
   String eSenseName = 'eSense-0414';
@@ -178,12 +181,15 @@ class _MyAppState extends State<MyApp> {
   }
 
   Widget build(BuildContext context) {
-    
+
+    TapGestureRecognizer tapper = TapGestureRecognizer();
+    tapper.onTapDown = game.onTapDown;
+    Flame.util.addGestureRecognizer(tapper);
     
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('eSense Demo App'),
+          title: game.textScore,
         ),
         body: game.widget,
         drawer: Drawer(
