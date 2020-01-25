@@ -8,6 +8,7 @@ class Player {
   Rect playerRect;
   double middleX;
   double middleY;
+  double sensitivity = 1.5;
   Sprite crosshair =  Sprite('crosshairs_small.png');
 
   Player(this.game, double x, double y) {
@@ -26,15 +27,18 @@ class Player {
   }
 
   void onSensorInput(double aAlpha, double aBeta, double aGamma,double gAlpha, double gBeta, double gGamma) {
-    if(isInside(gAlpha, 0)){
-      playerRect = playerRect.translate(gAlpha, 0);
-      middleX = middleX + gAlpha;
+
+    //Todo try with acceleration
+
+    if(isInside(sensitivity * gAlpha, 0)){
+      playerRect = playerRect.translate(sensitivity * gAlpha, 0);
+      middleX = middleX + sensitivity * gAlpha;
     }
       
 
-     if(isInside(0, gGamma)) {
-       playerRect = playerRect.translate(0, gGamma + 1.6);
-       middleY = middleY + gGamma + 1.6;
+     if(isInside(0, sensitivity * gGamma)) {
+       playerRect = playerRect.translate(0, sensitivity * gGamma + 1.6);
+       middleY = middleY + sensitivity * gGamma + 1.6;
      }
       
     

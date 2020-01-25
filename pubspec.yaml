@@ -44,6 +44,10 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/crosshairs_small.png
+    - assets/images/start_2.png
+    - assets/images/start_3.png
+    - assets/images/over.png
+    - assets/images/loading.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg

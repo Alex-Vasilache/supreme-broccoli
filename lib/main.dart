@@ -114,7 +114,7 @@ class _MyAppState extends State<MyApp> {
           // TODO
             break;
           case SensorConfigRead:
-          // TODO
+             //Timer(Duration(seconds: 7), () async => press());
             break;
         }
       });
@@ -160,6 +160,8 @@ class _MyAppState extends State<MyApp> {
         if(_gBeta > _maxgBeta) { _maxgBeta = _gBeta; }
         if(_gGamma > _maxgGamma) { _maxgGamma = _gGamma; }
         game.onSensorInput(_aAlpha,_aBeta,_aGamma,_gAlpha,_gBeta,_gGamma);
+        game.connected = true;
+        print("listen to eveeentssssssssssssssss");
       });
     });
     setState(() {
@@ -180,13 +182,21 @@ class _MyAppState extends State<MyApp> {
     super.dispose();
   }
 
+  void press() async{
+    await _startListenToSensorEvents();
+    print("connected!!!!!!!!!");
+  }
+
   Widget build(BuildContext context) {
 
     TapGestureRecognizer tapper = TapGestureRecognizer();
     tapper.onTapDown = game.onTapDown;
+    tapper.onTapUp = game.onTapUp;
     Flame.util.addGestureRecognizer(tapper);
+    game.addStartFunction(press);
     
-    return MaterialApp(
+    return game.widget;
+    /*MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: new Text("Game"),
@@ -231,6 +241,6 @@ class _MyAppState extends State<MyApp> {
         
           ),
        ),
-      );
+      );*/
     }
 }

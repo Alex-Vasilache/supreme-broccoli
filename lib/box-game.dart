@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flame/flame.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:newprojectx/player.dart';
 import 'package:newprojectx/score.dart';
+import 'package:newprojectx/startButton.dart';
 import 'package:newprojectx/target.dart';
 import 'dart:math';
 import 'package:flutter/gestures.dart';
@@ -21,7 +23,9 @@ class BoxGame extends Game {
   List<Target> targets;
   Random random;
   bool gameOver;
-  
+  StartButton startButton;
+  void Function() connectBluetooth;
+  bool connected = false;
 
   BoxGame() {
     initialize();
@@ -32,17 +36,34 @@ class BoxGame extends Game {
     await Flame.util.setOrientation(DeviceOrientation.portraitUp);
     resize(await Flame.util.initialDimensions());
     Flame.images.load('crosshairs_small.png');
-    startGame();
-  }
-
-  void startGame() {
-    gameOver = false;
+    Flame.images.load('start_2.png');
+    Flame.images.load('start_3.png');
+    Flame.images.load('over.png');
+    Flame.images.load('loading.png');
+    gameOver = true;
     random = Random();
     score = Score(this);
     targets = List<Target>();    
     player = Player(this, screenSize.width/2, screenSize.height/2 - tileSize);
-    
-    spawnTarget();    
+    startButton = StartButton(this);
+    Timer(Duration(seconds: 10), () async {
+      Timer.periodic(Duration(milliseconds: 2300), (timer) async {
+        if(!connected)
+          connectBluetooth();
+        else{
+          timer.cancel();
+        }
+      }
+      );
+    }
+    );
+    spawnTarget();  
+  }
+
+  void startGame() {
+    //conncetBluetooth();
+    score.timer.start();
+    gameOver = false;
   }
 
   void spawnTarget() {
@@ -57,21 +78,26 @@ class BoxGame extends Game {
     //Draw background
     Rect bgRect = Rect.fromLTWH(0, 0, screenSize.width, screenSize.height);
     Paint bgPaint = Paint();
-    
     bgPaint.color = Color(0xffffffff);
     canvas.drawRect(bgRect, bgPaint);
-       
+  
     targets.forEach((Target target) => target.render(canvas));
     player.render(canvas);
+    
     score.render(canvas);
+    startButton.render(canvas);
   }
 
   void update(double t) {
-    targets.forEach((Target target) => target.update(t));
-      if(score.timer.isFinished)
-        gameOver = true;
+   
+  }
 
-      //TODO display game over
+  void stopGame() {
+    gameOver = true;
+    startButton = StartButton(this);
+    score.timer.addTime(10);
+    score.intScore = 0;
+    score.textScore = "S: 0";
   }
   
 
@@ -83,7 +109,8 @@ class BoxGame extends Game {
 
   void onSensorInput(double aAlpha, double aBeta, double aGamma, double gAlpha, double gBeta, double gGamma) {
     //TODO remove unused inputs
-    player.onSensorInput(aAlpha, aBeta, aGamma, gAlpha, gBeta, gGamma);
+    if(!gameOver)
+      player.onSensorInput(aAlpha, aBeta, aGamma, gAlpha, gBeta, gGamma);
   }
 
   void onButtonPressed(bool button) {
@@ -91,16 +118,35 @@ class BoxGame extends Game {
 
   void onTapDown(TapDownDetails d) {
     
-    if(!gameOver)
-     targets.forEach((Target target) {
+    if(!gameOver) {
+      targets.forEach((Target target) {
       if(target.targetRect.contains(player.playerRect.center)) {
         targets.remove(target);
         score.increment();
         score.timer.addTime(3);
         spawnTarget();
       }
-      
-    });
+      });
+    } else {
+      if(startButton.textContainer.contains(d.globalPosition)){
+        startButton.onTapDown();
+      }
+    }
+
   }
+
+  void onTapUp(TapUpDetails d) {
+    if(gameOver){
+      if(startButton.textContainer.contains(d.globalPosition)){
+        startButton.onTapUp();
+        startGame();
+      }
+    }
+  }
+
+  void addStartFunction(void Function()  press) {
+    connectBluetooth = press;
+  }
+
   
 }

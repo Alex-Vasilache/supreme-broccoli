@@ -24,8 +24,7 @@ class Score {
     textScore = "S: 0";
     config = TextConfig(fontSize: game.tileSize, fontFamily: 'Courier', textAlign: TextAlign.center);
     textContainer = Rect.fromLTWH(0, game.screenSize.height - 3 * game.tileSize, game.screenSize.width, 2 * game.tileSize);
-    timer = MyTimer(10);
-    timer.start();
+    timer = MyTimer(game, 10);
     textContainerPaint = Paint();
     textContainerPaint.color = Color(0xff42c0ff);
   }
@@ -34,10 +33,10 @@ class Score {
 
     //game.screenSize.width/2 - game.tileSize * (textScore.length/4 + 0.5)
 
-    c.drawRect(textContainer, textContainerPaint);
+    //c.drawRect(textContainer, textContainerPaint);
     config.render(c, textScore, Position(0 , game.screenSize.height - 3/2*game.tileSize));
     
-    config.render(c, timer.time.toString(), Position( game.screenSize.width- game.tileSize * (textScore.length/2 + 1),
+    config.render(c, timer.time.toString(), Position( game.screenSize.width- game.tileSize * (timer.time.toString().length/2 + 0.5),
     game.screenSize.height - 3/2*game.tileSize));
     
   }
