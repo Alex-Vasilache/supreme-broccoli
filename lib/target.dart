@@ -11,7 +11,7 @@ class Target {
   Target(this.game, double x, double y) {
     targetRect = Rect.fromLTWH(x, y, game.tileSize, game.tileSize);
     targetPaint = Paint();
-    targetPaint.color = Color(0xff00ffff);
+    targetPaint.color = Color(0xff00f000);
   }
 
   void render(Canvas c) {

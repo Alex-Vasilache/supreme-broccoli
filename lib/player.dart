@@ -13,7 +13,7 @@ class Player {
   Player(this.game, double x, double y) {
     middleX = x;
     middleY = y;
-    playerRect = Rect.fromLTWH(x - game.tileSize*2, y - game.tileSize*2, game.tileSize*4, game.tileSize*4);
+    playerRect = Rect.fromLTWH(x - game.tileSize, y - game.tileSize, game.tileSize*2, game.tileSize*2);
   }
 
   void render(Canvas c) {

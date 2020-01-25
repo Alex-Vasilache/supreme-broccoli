@@ -189,7 +189,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: game.textScore,
+          title: new Text("Game"),
         ),
         body: game.widget,
         drawer: Drawer(
