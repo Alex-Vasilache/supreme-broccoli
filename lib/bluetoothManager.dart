@@ -10,6 +10,8 @@ class BluetoothManager {
   bool connected = false;
   String eSenseName = 'eSense-0414';
   String _deviceStatus = '';
+  List<double> accl = List(3);
+  List<double> gyro = List(3);
 
   BluetoothManager(this.game) {
     _connectToESense();
@@ -25,7 +27,7 @@ class BluetoothManager {
       print('CONNECTION event: $event');
 
       if(event.type == ConnectionType.connected) {
-        _startListenToSensorEvents();
+        Timer(Duration(seconds: 2), () async => _startListenToSensorEvents());
       }
         
       switch (event.type) {
@@ -68,15 +70,16 @@ class BluetoothManager {
   }
 
   void extractSensorData(String _event) {
-    /*
-    _accl = _event.substring(_event.indexOf("accl: ") + 6 , _event.indexOf("gyro:") - 2);
-    _gyro = _event.substring(_event.indexOf("gyro: ") + 6);
-    _aAlpha = double.parse(_accl.substring(_accl.indexOf("[") + 1, _accl.indexOf(",")))/100;
-    _aBeta = double.parse(_accl.substring(_accl.indexOf(",") + 1, _accl.lastIndexOf(",")))/100;
-    _aGamma = double.parse(_accl.substring(_accl.lastIndexOf(",") + 1, _accl.lastIndexOf("]")))/100;
-    _gAlpha = double.parse(_gyro.substring(_gyro.indexOf("[") + 1, _gyro.indexOf(",")))/100;
-    _gBeta = double.parse(_gyro.substring(_gyro.indexOf(",") + 1, _gyro.lastIndexOf(",")))/100;
-    _gGamma = double.parse(_gyro.substring(_gyro.lastIndexOf(",") + 1, _gyro.lastIndexOf("]")))/100;*/
+    
+    String _accl = _event.substring(_event.indexOf("accl: ") + 6 , _event.indexOf("gyro:") - 2);
+    String _gyro = _event.substring(_event.indexOf("gyro: ") + 6);
+    
+    accl[1] = double.parse(_accl.substring(_accl.indexOf("[") + 1, _accl.indexOf(",")))/100;
+    accl[2] = double.parse(_accl.substring(_accl.indexOf(",") + 1, _accl.lastIndexOf(",")))/100;
+    accl[3] = double.parse(_accl.substring(_accl.lastIndexOf(",") + 1, _accl.lastIndexOf("]")))/100;
+    gyro[1] = double.parse(_gyro.substring(_gyro.indexOf("[") + 1, _gyro.indexOf(",")))/100;
+    gyro[2] = double.parse(_gyro.substring(_gyro.indexOf(",") + 1, _gyro.lastIndexOf(",")))/100;
+    gyro[3] = double.parse(_gyro.substring(_gyro.lastIndexOf(",") + 1, _gyro.lastIndexOf("]")))/100;
   }
 
 }
