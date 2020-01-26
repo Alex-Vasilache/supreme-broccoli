@@ -8,23 +8,27 @@ import 'package:esense_flutter/esense.dart';
 import 'package:newprojectx/box-game.dart';
 import 'package:flutter/gestures.dart';
 
-//void main() => runApp(MyApp());
-BoxGame game = BoxGame();
 void main() {
   BoxGame game = BoxGame();
+  Util flameUtil = Util();
+
+  TapGestureRecognizer tapper = TapGestureRecognizer();
+  tapper.onTapDown = game.onTapDown;
+  tapper.onTapUp = game.onTapUp;
+  flameUtil.addGestureRecognizer(tapper);
+
   runApp(game.widget);
 
-  Util flameUtil = Util();
   flameUtil.fullScreen();
   flameUtil.setOrientation(DeviceOrientation.portraitUp);
-  
+
   Flame.images.loadAll(<String>[
   'crosshairs_small.png',
   'start_2.png',
   'start_3.png',
   'over.png',
   'loading.png',
-]);
+  ]);
 }
 
 class MyApp extends StatefulWidget {
