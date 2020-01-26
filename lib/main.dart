@@ -10,7 +10,12 @@ import 'package:flutter/gestures.dart';
 
 //void main() => runApp(MyApp());
 BoxGame game = BoxGame();
-void main() => runApp(game.widget);
+Future<void> main() async {
+  runApp(game.widget);
+  await Flame.util.fullScreen();
+  await Flame.util.setOrientation(DeviceOrientation.portraitUp);
+  game.resize(await Flame.util.initialDimensions());
+}
 
 class MyApp extends StatefulWidget {
   @override
