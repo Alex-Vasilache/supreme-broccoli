@@ -10,11 +10,20 @@ import 'package:flutter/gestures.dart';
 
 //void main() => runApp(MyApp());
 BoxGame game = BoxGame();
-Future<void> main() async {
+void main() {
+  BoxGame game = BoxGame();
   runApp(game.widget);
-  await Flame.util.fullScreen();
-  await Flame.util.setOrientation(DeviceOrientation.portraitUp);
-  game.resize(await Flame.util.initialDimensions());
+
+  Util flameUtil = Util();
+  flameUtil.fullScreen();
+  flameUtil.setOrientation(DeviceOrientation.portraitUp);
+  Flame.images.loadAll(<String>[
+  'crosshairs_small.png',
+  'start_2.png',
+  'start_3.png',
+  'over.png',
+  'loading.png',
+]);
 }
 
 class MyApp extends StatefulWidget {

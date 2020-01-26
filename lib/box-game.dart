@@ -34,12 +34,12 @@ class BoxGame extends Game {
   void initialize() async {
     //await Flame.util.fullScreen();
     //await Flame.util.setOrientation(DeviceOrientation.portraitUp);
-    //resize(await Flame.util.initialDimensions());
-    Flame.images.load('crosshairs_small.png');
-    Flame.images.load('start_2.png');
-    Flame.images.load('start_3.png');
-    Flame.images.load('over.png');
-    Flame.images.load('loading.png');
+    resize(await Flame.util.initialDimensions());
+    //Flame.images.load('crosshairs_small.png');
+    //Flame.images.load('start_2.png');
+    //Flame.images.load('start_3.png');
+    //Flame.images.load('over.png');
+    //Flame.images.load('loading.png');
     gameOver = true;
     random = Random();
     score = Score(this);
