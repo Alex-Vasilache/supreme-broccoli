@@ -4,6 +4,7 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:newprojectx/bluetoothManager.dart';
+import 'package:newprojectx/myTimer.dart';
 import 'package:newprojectx/player.dart';
 import 'package:newprojectx/score.dart';
 import 'package:newprojectx/startButton.dart';
@@ -15,13 +16,12 @@ class BoxGame extends Game {
   Size screenSize;
   Player player;
   Score score;
+  MyTimer timer;
   double tileSize;
   List<Target> targets;
   Random random;
   bool gameOver;
   StartButton startButton;
-  void Function() connectBluetooth;
-  bool connected = false;
   BluetoothManager bluetoothManager;
 
   BoxGame() {
@@ -33,6 +33,7 @@ class BoxGame extends Game {
     gameOver = true;
     random = Random();
     score = Score(this);
+    timer = MyTimer(this, 10);
     targets = List<Target>();    
     player = Player(this, screenSize.width/2, screenSize.height/2 - tileSize);
     startButton = StartButton(this);
@@ -41,7 +42,7 @@ class BoxGame extends Game {
 
   void startGame() {
     spawnTarget();
-    score.timer.start();
+    timer.start();
     gameOver = false;
   }
 
@@ -64,6 +65,7 @@ class BoxGame extends Game {
     player.render(canvas);
     
     score.render(canvas);
+    timer.render(canvas);
     startButton.render(canvas);
   }
 
@@ -72,7 +74,7 @@ class BoxGame extends Game {
   void stopGame() {
     gameOver = true;
     startButton = StartButton(this);
-    score.timer.addTime(10);
+    timer.addTime(10);
     score.intScore = 0;
     score.textScore = "S: 0";
   }
@@ -91,7 +93,7 @@ class BoxGame extends Game {
       if(target.targetRect.contains(player.playerRect.center)) {
         targets.remove(target);
         score.increment();
-        score.timer.addTime(3);
+        timer.addTime(3);
         spawnTarget();
       }
       });
