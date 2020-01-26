@@ -24,36 +24,59 @@ class BluetoothManager {
 
       print('CONNECTION event: $event');
 
-      if(event.type == ConnectionType.connected) {}
-
+      if(event.type == ConnectionType.connected) {
+        _startListenToSensorEvents();
+      }
+        
       switch (event.type) {
-          case ConnectionType.connected:
-            _deviceStatus = 'connected';
-            break;
-          case ConnectionType.unknown:
-            _deviceStatus = 'unknown';
-            break;
-          case ConnectionType.disconnected:
-            _deviceStatus = 'disconnected';
-            break;
-          case ConnectionType.device_found:
-            _deviceStatus = 'device_found';
-            break;
-          case ConnectionType.device_not_found:
-            _deviceStatus = 'device_not_found';
-            break;
-        }
+        case ConnectionType.connected:
+          _deviceStatus = 'connected';
+          break;
+        case ConnectionType.unknown:
+          _deviceStatus = 'unknown';
+          break;
+        case ConnectionType.disconnected:
+          _deviceStatus = 'disconnected';
+          break;
+        case ConnectionType.device_found:
+          _deviceStatus = 'device_found';
+          break;
+        case ConnectionType.device_not_found:
+          _deviceStatus = 'device_not_found';
+          break;
+      }
     });
-
+      
     Timer.periodic(Duration(seconds: 4), (timer) async {
       await ESenseManager.connect(eSenseName);
-      
+            
       await new Future.delayed(const Duration(seconds : 3));
       if(_deviceStatus == 'device_found' || _deviceStatus == 'connected') {
         timer.cancel();
         connected = true;
       }
     });
+  }
+
+  StreamSubscription subscription;    
+  void _startListenToSensorEvents() async{
+    
+    subscription = ESenseManager.sensorEvents.listen((event) {
+      print('SENSOR event: $event');
+      extractSensorData(event.toString());         
+    });
+  }
+
+  void extractSensorData(String _event) {
+    /*
+    _accl = _event.substring(_event.indexOf("accl: ") + 6 , _event.indexOf("gyro:") - 2);
+    _gyro = _event.substring(_event.indexOf("gyro: ") + 6);
+    _aAlpha = double.parse(_accl.substring(_accl.indexOf("[") + 1, _accl.indexOf(",")))/100;
+    _aBeta = double.parse(_accl.substring(_accl.indexOf(",") + 1, _accl.lastIndexOf(",")))/100;
+    _aGamma = double.parse(_accl.substring(_accl.lastIndexOf(",") + 1, _accl.lastIndexOf("]")))/100;
+    _gAlpha = double.parse(_gyro.substring(_gyro.indexOf("[") + 1, _gyro.indexOf(",")))/100;
+    _gBeta = double.parse(_gyro.substring(_gyro.indexOf(",") + 1, _gyro.lastIndexOf(",")))/100;
+    _gGamma = double.parse(_gyro.substring(_gyro.lastIndexOf(",") + 1, _gyro.lastIndexOf("]")))/100;*/
   }
 
 }
