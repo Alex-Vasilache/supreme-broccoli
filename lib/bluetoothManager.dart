@@ -68,7 +68,10 @@ class BluetoothManager {
     subscription = ESenseManager.sensorEvents.listen((event) {
       print('SENSOR event: $event');
       extractSensorData(event.toString());
-      game.onSensorEvent(accl, gyro);       
+      if(!game.player.setUp)
+        game.player.setUpSensor(accl, gyro);
+      else
+        game.onSensorEvent(accl, gyro);       
     });
   }
 

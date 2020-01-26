@@ -43,6 +43,7 @@ class BoxGame extends Game {
   void startGame() {
     spawnTarget();
     timer.start();
+    player.recalibrateSensor();
     gameOver = false;
   }
 
