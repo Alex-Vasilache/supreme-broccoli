@@ -65,7 +65,8 @@ class BluetoothManager {
     
     subscription = ESenseManager.sensorEvents.listen((event) {
       print('SENSOR event: $event');
-      extractSensorData(event.toString());         
+      extractSensorData(event.toString());
+      game.onSensorEvent(accl, gyro);       
     });
   }
 
@@ -73,13 +74,13 @@ class BluetoothManager {
     
     String _accl = _event.substring(_event.indexOf("accl: ") + 6 , _event.indexOf("gyro:") - 2);
     String _gyro = _event.substring(_event.indexOf("gyro: ") + 6);
-    
-    accl[1] = double.parse(_accl.substring(_accl.indexOf("[") + 1, _accl.indexOf(",")))/100;
-    accl[2] = double.parse(_accl.substring(_accl.indexOf(",") + 1, _accl.lastIndexOf(",")))/100;
-    accl[3] = double.parse(_accl.substring(_accl.lastIndexOf(",") + 1, _accl.lastIndexOf("]")))/100;
-    gyro[1] = double.parse(_gyro.substring(_gyro.indexOf("[") + 1, _gyro.indexOf(",")))/100;
-    gyro[2] = double.parse(_gyro.substring(_gyro.indexOf(",") + 1, _gyro.lastIndexOf(",")))/100;
-    gyro[3] = double.parse(_gyro.substring(_gyro.lastIndexOf(",") + 1, _gyro.lastIndexOf("]")))/100;
+
+    accl[0] = double.parse(_accl.substring(_accl.indexOf("[") + 1, _accl.indexOf(",")))/100;
+    accl[1] = double.parse(_accl.substring(_accl.indexOf(",") + 1, _accl.lastIndexOf(",")))/100;
+    accl[2] = double.parse(_accl.substring(_accl.lastIndexOf(",") + 1, _accl.lastIndexOf("]")))/100;
+    gyro[0] = double.parse(_gyro.substring(_gyro.indexOf("[") + 1, _gyro.indexOf(",")))/100;
+    gyro[1] = double.parse(_gyro.substring(_gyro.indexOf(",") + 1, _gyro.lastIndexOf(",")))/100;
+    gyro[2] = double.parse(_gyro.substring(_gyro.lastIndexOf(",") + 1, _gyro.lastIndexOf("]")))/100;
   }
 
 }

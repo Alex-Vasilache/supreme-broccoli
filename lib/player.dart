@@ -58,4 +58,18 @@ class Player {
      
   }
 
+  void onSensorEvent(List<double> accl, List<double> gyro) {
+    
+    if(isInside(sensitivity * gyro[0], 0)){
+      playerRect = playerRect.translate(sensitivity * gyro[0], 0);
+      middleX = middleX + sensitivity * gyro[0];
+    }
+      
+
+     if(isInside(0, sensitivity * gyro[2])) {
+       playerRect = playerRect.translate(0, sensitivity * gyro[2] + 1.6);
+       middleY = middleY + sensitivity * gyro[2] + 1.6;
+     }
+  }
+
 }

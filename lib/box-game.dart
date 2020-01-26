@@ -1,12 +1,8 @@
-import 'dart:async';
 import 'dart:ui';
 
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
-import 'package:flame/position.dart';
-import 'package:flame/text_config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:newprojectx/bluetoothManager.dart';
 import 'package:newprojectx/player.dart';
 import 'package:newprojectx/score.dart';
@@ -15,7 +11,6 @@ import 'package:newprojectx/target.dart';
 import 'dart:math';
 import 'package:flutter/gestures.dart';
    
-
 class BoxGame extends Game {
   Size screenSize;
   Player player;
@@ -34,14 +29,7 @@ class BoxGame extends Game {
   }
 
   void initialize() async {
-    //await Flame.util.fullScreen();
-    //await Flame.util.setOrientation(DeviceOrientation.portraitUp);
     resize(await Flame.util.initialDimensions());
-    //Flame.images.load('crosshairs_small.png');
-    //Flame.images.load('start_2.png');
-    //Flame.images.load('start_3.png');
-    //Flame.images.load('over.png');
-    //Flame.images.load('loading.png');
     gameOver = true;
     random = Random();
     score = Score(this);
@@ -49,22 +37,10 @@ class BoxGame extends Game {
     player = Player(this, screenSize.width/2, screenSize.height/2 - tileSize);
     startButton = StartButton(this);
     bluetoothManager = BluetoothManager(this);
-    /*Timer(Duration(seconds: 10), () async {
-      Timer.periodic(Duration(milliseconds: 2300), (timer) async {
-        if(!connected)
-          connectBluetooth();
-        else{
-          timer.cancel();
-        }
-      }
-      );
-    }
-    );*/
-    spawnTarget();  
   }
 
   void startGame() {
-    //conncetBluetooth();
+    spawnTarget();
     score.timer.start();
     gameOver = false;
   }
@@ -91,9 +67,7 @@ class BoxGame extends Game {
     startButton.render(canvas);
   }
 
-  void update(double t) {
-   
-  }
+  void update(double t) {}
 
   void stopGame() {
     gameOver = true;
@@ -111,12 +85,8 @@ class BoxGame extends Game {
   }
 
   void onSensorInput(double aAlpha, double aBeta, double aGamma, double gAlpha, double gBeta, double gGamma) {
-    //TODO remove unused inputs
     if(!gameOver)
       player.onSensorInput(aAlpha, aBeta, aGamma, gAlpha, gBeta, gGamma);
-  }
-
-  void onButtonPressed(bool button) {
   }
 
   void onTapDown(TapDownDetails d) {
@@ -147,9 +117,7 @@ class BoxGame extends Game {
     }
   }
 
-  void addStartFunction(void Function()  press) {
-    connectBluetooth = press;
-  }
-
-  
+  void onSensorEvent(List<double> accl, List<double> gyro) {
+    player.onSensorEvent(accl, gyro);
+  } 
 }
