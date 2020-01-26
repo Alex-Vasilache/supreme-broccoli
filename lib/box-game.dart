@@ -7,6 +7,7 @@ import 'package:flame/position.dart';
 import 'package:flame/text_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:newprojectx/bluetoothManager.dart';
 import 'package:newprojectx/player.dart';
 import 'package:newprojectx/score.dart';
 import 'package:newprojectx/startButton.dart';
@@ -26,6 +27,7 @@ class BoxGame extends Game {
   StartButton startButton;
   void Function() connectBluetooth;
   bool connected = false;
+  BluetoothManager bluetoothManager;
 
   BoxGame() {
     initialize();
@@ -46,6 +48,7 @@ class BoxGame extends Game {
     targets = List<Target>();    
     player = Player(this, screenSize.width/2, screenSize.height/2 - tileSize);
     startButton = StartButton(this);
+    bluetoothManager = BluetoothManager(this);
     /*Timer(Duration(seconds: 10), () async {
       Timer.periodic(Duration(milliseconds: 2300), (timer) async {
         if(!connected)

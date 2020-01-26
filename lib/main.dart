@@ -17,6 +17,7 @@ void main() {
   Util flameUtil = Util();
   flameUtil.fullScreen();
   flameUtil.setOrientation(DeviceOrientation.portraitUp);
+  
   Flame.images.loadAll(<String>[
   'crosshairs_small.png',
   'start_2.png',
