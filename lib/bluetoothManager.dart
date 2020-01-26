@@ -21,6 +21,7 @@ class BluetoothManager {
     
   Future<void> _connectToESense() async {
     ESenseManager.connectionEvents.listen((event) {
+
       print('CONNECTION event: $event');
 
       if(event.type == ConnectionType.connected) {}
@@ -44,14 +45,15 @@ class BluetoothManager {
         }
     });
 
-    Timer.periodic(Duration(seconds: 2), (timer) async {
-      connected = await ESenseManager.connect(eSenseName);
-      if(_deviceStatus == 'device_found') {
+    Timer.periodic(Duration(seconds: 4), (timer) async {
+      await ESenseManager.connect(eSenseName);
+      
+      await new Future.delayed(const Duration(seconds : 3));
+      if(_deviceStatus == 'device_found' || _deviceStatus == 'connected') {
         timer.cancel();
+        connected = true;
       }
     });
-
-    print(connected);
   }
 
 }
