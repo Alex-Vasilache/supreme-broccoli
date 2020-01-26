@@ -84,11 +84,6 @@ class BoxGame extends Game {
     tileSize = screenSize.width / 9;
   }
 
-  void onSensorInput(double aAlpha, double aBeta, double aGamma, double gAlpha, double gBeta, double gGamma) {
-    if(!gameOver)
-      player.onSensorInput(aAlpha, aBeta, aGamma, gAlpha, gBeta, gGamma);
-  }
-
   void onTapDown(TapDownDetails d) {
     
     if(!gameOver) {

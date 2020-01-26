@@ -18,31 +18,10 @@ class Player {
   }
 
   void render(Canvas c) {
-    //c.drawRect(playerRect, playerPaint);
     crosshair.renderRect(c, playerRect);
   }
 
-  void update(double t){
-    
-  }
-
-  void onSensorInput(double aAlpha, double aBeta, double aGamma,double gAlpha, double gBeta, double gGamma) {
-
-    //Todo try with acceleration
-
-    if(isInside(sensitivity * gAlpha, 0)){
-      playerRect = playerRect.translate(sensitivity * gAlpha, 0);
-      middleX = middleX + sensitivity * gAlpha;
-    }
-      
-
-     if(isInside(0, sensitivity * gGamma)) {
-       playerRect = playerRect.translate(0, sensitivity * gGamma + 1.6);
-       middleY = middleY + sensitivity * gGamma + 1.6;
-     }
-      
-    
-  }
+  void update(double t) {}
 
   bool isInside(double x, double y){
     
@@ -52,10 +31,6 @@ class Player {
     if(playerRect.left + x < 0) {return false;}
     
     return true;
-  }
-
-  void onButtonPressed(bool button) {
-     
   }
 
   void onSensorEvent(List<double> accl, List<double> gyro) {
@@ -71,5 +46,4 @@ class Player {
        middleY = middleY + sensitivity * gyro[2] + 1.6;
      }
   }
-
 }

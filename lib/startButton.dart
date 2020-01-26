@@ -1,8 +1,6 @@
 import 'dart:ui';
 
-import 'package:flame/position.dart';
 import 'package:flame/sprite.dart';
-import 'package:flame/text_config.dart';
 import 'package:newprojectx/box-game.dart';
 
 class StartButton {
@@ -26,7 +24,7 @@ class StartButton {
   }
 
   void render(Canvas c) { 
-    if(!game.connected){
+    if(!game.bluetoothManager.connected) {
       loading.renderRect(c, textContainer);
     } else {
        if(up)
@@ -34,7 +32,6 @@ class StartButton {
         else
          startDown.renderRect(c,textContainer);
     }
-   
   }
 
   void update(double t) {}

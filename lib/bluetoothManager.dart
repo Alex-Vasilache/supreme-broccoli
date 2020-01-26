@@ -27,7 +27,10 @@ class BluetoothManager {
       print('CONNECTION event: $event');
 
       if(event.type == ConnectionType.connected) {
-        Timer(Duration(seconds: 2), () async => _startListenToSensorEvents());
+        Timer(Duration(seconds: 2), () async {
+          _startListenToSensorEvents();
+          connected = true;
+        });
       }
         
       switch (event.type) {
@@ -55,7 +58,6 @@ class BluetoothManager {
       await new Future.delayed(const Duration(seconds : 3));
       if(_deviceStatus == 'device_found' || _deviceStatus == 'connected') {
         timer.cancel();
-        connected = true;
       }
     });
   }
