@@ -5,7 +5,7 @@ import 'package:flame/sprite.dart';
 class Player {
   final BoxGame game;
   Rect playerRect;
-  double sensitivity = 1.5;
+  double sensitivity = 3;
   Sprite crosshair =  Sprite('crosshairs_small.png');
   bool setUp = false;
   int tempSize = 0;

@@ -40,10 +40,14 @@ class BoxGame extends Game {
     bluetoothManager = BluetoothManager(this);
   }
 
-  void startGame() {
-    spawnTarget();
-    timer.start();
+  Future<void> startGame() async {
+    //player = Player(this, screenSize.width/2, screenSize.height/2 - tileSize);;
     player.recalibrateSensor();
+    targets.clear();
+    spawnTarget();
+    await new Future.delayed(const Duration(seconds : 2));
+    timer.start();
+    
     gameOver = false;
   }
 
@@ -94,7 +98,7 @@ class BoxGame extends Game {
       if(target.targetRect.contains(player.playerRect.center)) {
         targets.remove(target);
         score.increment();
-        timer.addTime(3);
+        timer.addTime(1);
         spawnTarget();
       }
       });
