@@ -46,7 +46,7 @@ class BoxGame extends Game {
     targets = List<Target>();    
     player = Player(this, screenSize.width/2, screenSize.height/2 - tileSize);
     startButton = StartButton(this);
-    Timer(Duration(seconds: 10), () async {
+    /*Timer(Duration(seconds: 10), () async {
       Timer.periodic(Duration(milliseconds: 2300), (timer) async {
         if(!connected)
           connectBluetooth();
@@ -56,7 +56,7 @@ class BoxGame extends Game {
       }
       );
     }
-    );
+    );*/
     spawnTarget();  
   }
 

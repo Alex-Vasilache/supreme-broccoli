@@ -8,7 +8,9 @@ import 'package:esense_flutter/esense.dart';
 import 'package:newprojectx/box-game.dart';
 import 'package:flutter/gestures.dart';
 
-void main() => runApp(MyApp());
+//void main() => runApp(MyApp());
+BoxGame game = BoxGame();
+void main() => runApp(game.widget);
 
 class MyApp extends StatefulWidget {
   @override
