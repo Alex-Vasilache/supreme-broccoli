@@ -18,8 +18,12 @@ void main() {
   //Load images
   Flame.images.loadAll(<String>[
   'crosshairs_small.png',
+  'start_1.png',
   'start_2.png',
   'start_3.png',
+  'calibrate_1.png',
+  'calibrate_2.png',
+  'calibrate_3.png',
   'over.png',
   'loading.png',
   ]);

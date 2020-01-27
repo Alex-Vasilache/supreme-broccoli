@@ -50,6 +50,7 @@ class BluetoothManager {
           _deviceStatus = 'device_not_found';
           break;
       }
+      game.connectionStatus.updateStatus(_deviceStatus);
     });
       
     Timer.periodic(Duration(seconds: 4), (timer) async {

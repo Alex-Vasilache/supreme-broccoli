@@ -4,6 +4,7 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:newprojectx/bluetoothManager.dart';
+import 'package:newprojectx/connectionStatus.dart';
 import 'package:newprojectx/myTimer.dart';
 import 'package:newprojectx/player.dart';
 import 'package:newprojectx/score.dart';
@@ -23,6 +24,7 @@ class BoxGame extends Game {
   bool gameOver;
   StartButton startButton;
   BluetoothManager bluetoothManager;
+  ConnectionStatus connectionStatus;
 
   BoxGame() {
     initialize();
@@ -38,6 +40,8 @@ class BoxGame extends Game {
     player = Player(this, screenSize.width/2, screenSize.height/2 - tileSize);
     startButton = StartButton(this);
     bluetoothManager = BluetoothManager(this);
+    connectionStatus = ConnectionStatus(this);
+
   }
 
   Future<void> startGame() async {
@@ -66,12 +70,14 @@ class BoxGame extends Game {
     bgPaint.color = Color(0xffffffff);
     canvas.drawRect(bgRect, bgPaint);
   
-    targets.forEach((Target target) => target.render(canvas));
+
     player.render(canvas);
     
     score.render(canvas);
     timer.render(canvas);
     startButton.render(canvas);
+    connectionStatus.render(canvas);
+    targets.forEach((Target target) => target.render(canvas));
   }
 
   void update(double t) {}

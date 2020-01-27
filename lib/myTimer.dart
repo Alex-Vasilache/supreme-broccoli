@@ -14,12 +14,14 @@ class MyTimer {
   TextConfig config;
 
   MyTimer(this.game, this.time) {
-    config = TextConfig(fontSize: game.tileSize, fontFamily: 'Courier', textAlign: TextAlign.center);
+    config = TextConfig(fontSize: game.tileSize*4, fontFamily: 'Courier',
+        textAlign: TextAlign.center, color: Color(0x20000000));
   }
 
   void render(Canvas c) {
-    config.render(c, time.toString(), Position( game.screenSize.width- game.tileSize * (time.toString().length/2 + 0.5),
-    game.screenSize.height - 3/2*game.tileSize));
+    config.render(c, time.toString(),
+        Position(game.screenSize.width/2 - game.tileSize*(1.25)*time.toString().length,
+            game.screenSize.height/2 - game.tileSize * 8));
   }
 
   void addTime(int extra) {

@@ -7,8 +7,12 @@ class StartButton {
   final BoxGame game;
   
   Rect textContainer;
+  Sprite startDisable = Sprite('start_1.png');
   Sprite startUp =  Sprite('start_2.png');
   Sprite startDown = Sprite('start_3.png');
+  Sprite calibrateUp = Sprite('calibrate_1.png');
+  Sprite calibrateDown = Sprite('calibrate_2.png');
+  Sprite calibrateDisable = Sprite('calibrate_3.png');
   Sprite loading = Sprite('loading.png');
   bool up;
 
