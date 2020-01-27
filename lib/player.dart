@@ -10,8 +10,7 @@ class Player {
   bool setUp = false;
   bool calibrationPhase = false;
   int tempSize = 0;
-  int size = 1;
-  int calibrateSize = 0;
+  int size = 3;
   List<double> initialPos = List(2);
   List<List<double>> position = List(2);
   List<List<double>> calibratePosition = List(2);
@@ -26,7 +25,6 @@ class Player {
     }
     calibratePosition[0] = new List();
     calibratePosition[1] = new List();
-
   }
 
   void render(Canvas c) {
@@ -35,8 +33,7 @@ class Player {
 
   void update(double t) {}
 
-  bool isInside(double x, double y){
-    
+  bool isInside(double x, double y) {
     if(playerRect.bottom + y > game.screenSize.height) {return false;}
     if(playerRect.right + x > game.screenSize.width) {return false;}
     if(playerRect.top + y < 0) {return false;}
@@ -47,18 +44,14 @@ class Player {
 
   void finishCalibration() {
     if(calibrationPhase) {
-      print("finished calibrating!");
       calibrationPhase = false;
       setUp = true;
       initialPos = getAvgPosition(calibratePosition);
-      print("avg X: " + initialPos[0].toString());
-      print("avg Y: " + initialPos[1].toString());
     }
   }
 
   void setUpSensor(List<double> accl, List<double> gyro) {
       if (calibrationPhase) {
-        print("added values :" + gyro[0].toString());
         calibratePosition[0].add(gyro[0]);
         calibratePosition[1].add(gyro[2]);
       }
@@ -81,7 +74,6 @@ class Player {
   }
 
   void addValues(double x, double y, List<List<double>> vec) {
-
     for (var i = 0; i < vec[0].length - 1; i++) {
       vec[0][i] = vec[0][i+1];
       vec[1][i] = vec[1][i+1];
@@ -96,5 +88,4 @@ class Player {
     avg[1] = vec[1].reduce((current, next) => current + next)/vec[1].length;
     return avg;
   }
-
 }
