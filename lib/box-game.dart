@@ -35,7 +35,7 @@ class BoxGame extends Game {
     gameOver = true;
     random = Random();
     score = Score(this);
-    timer = MyTimer(this, 10);
+    timer = MyTimer(this, 3);
     targets = List<Target>();    
     player = Player(this, screenSize.width/2, screenSize.height/2 - tileSize);
     startButton = StartButton(this);
@@ -45,14 +45,18 @@ class BoxGame extends Game {
   }
 
   Future<void> startGame() async {
-    //player = Player(this, screenSize.width/2, screenSize.height/2 - tileSize);;
-    player.recalibrateSensor();
-    targets.clear();
     spawnTarget();
-    await new Future.delayed(const Duration(seconds : 2));
     timer.start();
-    
     gameOver = false;
+  }
+
+  void stopGame() {
+    targets.clear();
+    gameOver = true;
+    startButton.reStart();
+    score.reStart();
+    timer.addTime(10);
+    player.finishCalibration();
   }
 
   void spawnTarget() {
@@ -81,15 +85,6 @@ class BoxGame extends Game {
   }
 
   void update(double t) {}
-
-  void stopGame() {
-    gameOver = true;
-    startButton = StartButton(this);
-    timer.addTime(10);
-    score.intScore = 0;
-    score.textScore = "S: 0";
-  }
-  
 
   void resize(Size size) {
     screenSize = size;
@@ -120,7 +115,6 @@ class BoxGame extends Game {
     if(gameOver){
       if(startButton.textContainer.contains(d.globalPosition)){
         startButton.onTapUp();
-        startGame();
       }
     }
   }

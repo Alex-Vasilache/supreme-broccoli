@@ -40,7 +40,16 @@ class ConnectionStatus {
   void generateText() {
     if(!game.bluetoothManager.connected)
       entireText = hint + "\n\n" + status;
-    else entireText = "";
+    else {
+      if(!game.player.setUp) {
+        entireText = "Keep your head in a neutral position," + "\n" +
+                     "then press Calibrate Sensor and hold"  + "\n" +
+                     "still for 3 seconds, while the" + "\n" +
+                     "sensor calibrates";
+      } else {
+        entireText = "";
+      }
+    }
     getLengthOfLongestLine();
   }
 
