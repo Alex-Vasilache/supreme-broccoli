@@ -26,6 +26,7 @@ void main() {
   'calibrate_3.png',
   'over.png',
   'loading.png',
+  'box.png',
   ]);
   
   //Add gesture recognizer
