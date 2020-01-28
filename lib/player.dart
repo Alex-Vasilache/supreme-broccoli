@@ -5,11 +5,10 @@ import 'package:flame/sprite.dart';
 class Player {
   final BoxGame game;
   Rect playerRect;
-  double sensitivity = 5;
+  double sensitivity = 1.5;
   Sprite crosshair =  Sprite('crosshairs_small.png');
   bool setUp = false;
   bool calibrationPhase = false;
-  int tempSize = 0;
   int size = 3;
   List<double> initialPos = List(2);
   List<List<double>> position = List(2);
@@ -49,26 +48,27 @@ class Player {
       calibrationPhase = false;
       setUp = true;
       initialPos = getAvgPosition(calibratePosition);
-      oldTrans = initialPos;
+      //oldTrans = initialPos;
     }
   }
 
   void setUpSensor(List<double> accl, List<double> gyro) {
-     /*
+     
       if (calibrationPhase) {
         calibratePosition[0].add(gyro[0]);
         calibratePosition[1].add(gyro[2]);
       }
-      */
+      
+      /*
     if (calibrationPhase) {
       calibratePosition[0].add(accl[2]);
       calibratePosition[1].add(accl[1]);
-    }
+    }*/
   }
 
   void onSensorEvent(List<double> accl, List<double> gyro) {
 
-    /*
+    
     addValues(gyro[0], gyro[2], position);
     List<double> average = getAvgPosition(position);
     average[0] -= initialPos[0];
@@ -77,8 +77,8 @@ class Player {
       playerRect = playerRect.translate(average[0]*sensitivity, 0);
     if(isInside(0, average[1]*sensitivity))
       playerRect = playerRect.translate(0, average[1]*sensitivity);
-     */
-
+     
+    /*
     List<double> newTrans = List(2);
     newTrans[0] = (accl[2] - oldTrans[0]) *(-1);
     newTrans[1] = accl[1] - oldTrans[1];
@@ -90,7 +90,7 @@ class Player {
 
     oldTrans[0] = accl[2];
     oldTrans[1] = accl[1];
-
+    */
   }
 
 
