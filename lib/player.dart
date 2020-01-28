@@ -5,7 +5,7 @@ import 'package:flame/sprite.dart';
 class Player {
   final BoxGame game;
   Rect playerRect;
-  double sensitivity = 1.5;
+  double sensitivity = 5;
   Sprite crosshair =  Sprite('crosshairs_small.png');
   bool setUp = false;
   bool calibrationPhase = false;
@@ -14,6 +14,8 @@ class Player {
   List<double> initialPos = List(2);
   List<List<double>> position = List(2);
   List<List<double>> calibratePosition = List(2);
+
+  List<double> oldTrans = List(2);
 
   Player(this.game, double x, double y) {
     playerRect = Rect.fromLTWH(x - game.tileSize, y - game.tileSize, game.tileSize*2, game.tileSize*2);
@@ -47,18 +49,26 @@ class Player {
       calibrationPhase = false;
       setUp = true;
       initialPos = getAvgPosition(calibratePosition);
+      oldTrans = initialPos;
     }
   }
 
   void setUpSensor(List<double> accl, List<double> gyro) {
+     /*
       if (calibrationPhase) {
         calibratePosition[0].add(gyro[0]);
         calibratePosition[1].add(gyro[2]);
       }
+      */
+    if (calibrationPhase) {
+      calibratePosition[0].add(accl[2]);
+      calibratePosition[1].add(accl[1]);
+    }
   }
 
   void onSensorEvent(List<double> accl, List<double> gyro) {
-  
+
+    /*
     addValues(gyro[0], gyro[2], position);
     List<double> average = getAvgPosition(position);
     average[0] -= initialPos[0];
@@ -67,11 +77,22 @@ class Player {
       playerRect = playerRect.translate(average[0]*sensitivity, 0);
     if(isInside(0, average[1]*sensitivity))
       playerRect = playerRect.translate(0, average[1]*sensitivity);
+     */
+
+    List<double> newTrans = List(2);
+    newTrans[0] = (accl[2] - oldTrans[0]) *(-1);
+    newTrans[1] = accl[1] - oldTrans[1];
+
+    if(isInside(newTrans[0]*sensitivity, 0))
+      playerRect = playerRect.translate(newTrans[0]*sensitivity, 0);
+    if(isInside(0, newTrans[1]*sensitivity))
+      playerRect = playerRect.translate(0, newTrans[1]*sensitivity);
+
+    oldTrans[0] = accl[2];
+    oldTrans[1] = accl[1];
+
   }
 
-  void recalibrateSensor() { 
-    setUp = false;
-  }
 
   void addValues(double x, double y, List<List<double>> vec) {
     for (var i = 0; i < vec[0].length - 1; i++) {
