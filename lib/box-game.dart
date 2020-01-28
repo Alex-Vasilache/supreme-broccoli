@@ -60,8 +60,8 @@ class BoxGame extends Game {
   }
 
   void spawnTarget() {
-    double x = random.nextDouble() * (screenSize.width - 3 * tileSize) + tileSize;
-    double y = random.nextDouble() * (screenSize.height - 3 * tileSize) + tileSize;
+    double x = random.nextDouble() * (screenSize.width - 2 * tileSize);
+    double y = random.nextDouble() * (screenSize.height - 2 * tileSize);
     Target newTarget = Target(this, x,y);
     
     targets.add(newTarget);
@@ -73,15 +73,12 @@ class BoxGame extends Game {
     Paint bgPaint = Paint();
     bgPaint.color = Color(0xffffffff);
     canvas.drawRect(bgRect, bgPaint);
-  
-
-    player.render(canvas);
-    
-    score.render(canvas);
     timer.render(canvas);
+    targets.forEach((Target target) => target.render(canvas));
+    player.render(canvas);
     startButton.render(canvas);
     connectionStatus.render(canvas);
-    targets.forEach((Target target) => target.render(canvas));
+    score.render(canvas);
   }
 
   void update(double t) {
@@ -95,7 +92,6 @@ class BoxGame extends Game {
   }
 
   void onTapDown(TapDownDetails d) {
-    
     if(!gameOver) {
       targets.forEach((Target target) {
       if(target.targetRect.contains(player.playerRect.center)) {

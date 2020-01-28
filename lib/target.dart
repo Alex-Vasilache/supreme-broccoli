@@ -9,7 +9,7 @@ class Target {
   Paint targetPaint;
 
   Target(this.game, double x, double y) {
-    targetRect = Rect.fromLTWH(x, y, game.tileSize, game.tileSize);
+    targetRect = Rect.fromLTWH(x, y, 2*game.tileSize, 2*game.tileSize);
     targetPaint = Paint();
     targetPaint.color = Color(0xff00f000);
   }
@@ -21,7 +21,4 @@ class Target {
 
   void update(double t) {}
 
-  void onTapDown() {
-
-  }
 }

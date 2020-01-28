@@ -74,20 +74,21 @@ class StartButton {
 
   void onTapUp() {
     up = true;
-    if(!game.player.setUp) {
-      if(!game.player.calibrationPhase) { //Not started calibrating
-        game.player.calibrationPhase = true;
-        game.timer.start();
-      } else { //started calibrating
+    if(game.bluetoothManager.connected) {
+      if(!game.player.setUp) {
+        if(!game.player.calibrationPhase) { //Not started calibrating
+          game.player.calibrationPhase = true;
+          game.timer.start();
+        } else { //started calibrating
 
-      }
-    } else { //Calibration set up
-      start = true;
-      Timer(Duration(milliseconds: 500), () async {
-        game.startGame();
-        textContainer = Rect.fromLTWH(0,0,0,0);
-      });
-
+        }
+      } else { //Calibration set up
+          start = true;
+          Timer(Duration(milliseconds: 500), () async {
+            game.startGame();
+            textContainer = Rect.fromLTWH(0,0,0,0);
+            });
+        }
     }
   }
 
