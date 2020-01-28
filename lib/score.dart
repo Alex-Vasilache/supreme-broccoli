@@ -2,10 +2,10 @@ import 'dart:ui';
 
 import 'package:flame/position.dart';
 import 'package:flame/text_config.dart';
-import 'package:newprojectx/box-game.dart';
+import 'package:newprojectx/shootingGame.dart';
 
 class Score {
-  final BoxGame game;
+  final ShootingGame game;
   String textScore;
   String textHighScore;
   int intScore;
@@ -30,7 +30,6 @@ class Score {
   }
 
   void render(Canvas c) {
-    //game.screenSize.width/2 - game.tileSize * (textScore.length/4 + 0.5)
     config.render(c, textScore, Position(game.tileSize/2,
         game.screenSize.height - 3/2*game.tileSize));
     config.render(c, textHighScore, Position( game.screenSize.width - game.tileSize

@@ -3,11 +3,11 @@ import 'package:flame/util.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
-import 'package:newprojectx/box-game.dart';
+import 'package:newprojectx/shootingGame.dart';
 import 'package:flutter/gestures.dart';
 
 void main() {
-  BoxGame game = BoxGame();
+  ShootingGame game = ShootingGame();
   Util flameUtil = Util();
 
   runApp(game.widget);

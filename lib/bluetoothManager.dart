@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:esense_flutter/esense.dart';
-import 'package:newprojectx/box-game.dart';
+import 'package:newprojectx/shootingGame.dart';
 
 class BluetoothManager {
 
-  final BoxGame game;
+  final ShootingGame game;
   bool connected = false;
   String eSenseName = 'eSense-0414';
   String _deviceStatus = '';

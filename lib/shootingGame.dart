@@ -13,7 +13,7 @@ import 'package:newprojectx/target.dart';
 import 'dart:math';
 import 'package:flutter/gestures.dart';
    
-class BoxGame extends Game {
+class ShootingGame extends Game {
   Size screenSize;
   Player player;
   Score score;
@@ -26,7 +26,7 @@ class BoxGame extends Game {
   BluetoothManager bluetoothManager;
   ConnectionStatus connectionStatus;
 
-  BoxGame() {
+  ShootingGame() {
     initialize();
   }
 
@@ -41,7 +41,6 @@ class BoxGame extends Game {
     startButton = StartButton(this);
     bluetoothManager = BluetoothManager(this);
     connectionStatus = ConnectionStatus(this);
-
   }
 
   Future<void> startGame() async {
@@ -63,7 +62,6 @@ class BoxGame extends Game {
     double x = random.nextDouble() * (screenSize.width - 2 * tileSize);
     double y = random.nextDouble() * (screenSize.height - 2 * tileSize);
     Target newTarget = Target(this, x,y);
-    
     targets.add(newTarget);
   }
 
@@ -106,7 +104,6 @@ class BoxGame extends Game {
         startButton.onTapDown();
       }
     }
-
   }
 
   void onTapUp(TapUpDetails d) {

@@ -3,10 +3,10 @@ import 'dart:ui';
 import 'dart:math';
 import 'package:flame/position.dart';
 import 'package:flame/text_config.dart';
-import 'package:newprojectx/box-game.dart';
+import 'package:newprojectx/shootingGame.dart';
 
 class ConnectionStatus {
-  final BoxGame game;
+  final ShootingGame game;
   String hint;
   String status = " ";
   String entireText;

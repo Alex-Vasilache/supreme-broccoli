@@ -2,11 +2,10 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flame/sprite.dart';
-import 'package:newprojectx/box-game.dart';
+import 'package:newprojectx/shootingGame.dart';
 
 class StartButton {
-  final BoxGame game;
-  
+  final ShootingGame game;
   Rect textContainer;
   Sprite startDisable = Sprite('start_1.png');
   Sprite startUp =  Sprite('start_2.png');
@@ -17,20 +16,17 @@ class StartButton {
   Sprite loading = Sprite('loading.png');
   bool up;
   bool start = false;
-
   double left;
   double top;
   double width;
   double height;
 
   StartButton (this.game) {
-
     up = true;
     left = 3/2*game.tileSize;
     top = game.screenSize.height/2 - 5/2*game.tileSize;
     width = 6*game.tileSize;
     height = 3*game.tileSize;
-
     textContainer = Rect.fromLTWH(left,top,width,height);
   }
 
@@ -80,8 +76,7 @@ class StartButton {
           game.player.calibrationPhase = true;
           game.timer.start();
         } else { //started calibrating
-
-        }
+          }
       } else { //Calibration set up
           start = true;
           Timer(Duration(milliseconds: 500), () async {
@@ -91,5 +86,4 @@ class StartButton {
         }
     }
   }
-
 }

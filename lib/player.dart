@@ -1,9 +1,9 @@
 import 'dart:ui';
-import 'package:newprojectx/box-game.dart';
+import 'package:newprojectx/shootingGame.dart';
 import 'package:flame/sprite.dart';
 
 class Player {
-  final BoxGame game;
+  final ShootingGame game;
   Rect playerRect;
   double sensitivity = 0.5;
   Sprite crosshair =  Sprite('crosshairs_small.png');
@@ -14,10 +14,8 @@ class Player {
   List<List<double>> position = List(2);
   List<List<double>> calibratePosition = List(2);
   List<double> average = List(2);
-  List<double> oldTrans = List(2);
 
   Player(this.game, double x, double y) {
-
     playerRect = Rect.fromLTWH(x - game.tileSize, y - game.tileSize, game.tileSize*2, game.tileSize*2);
     position[0] = List(size);
     position[1] = List(size);
@@ -36,7 +34,6 @@ class Player {
   }
 
   void update(double t) {
-    //sensitivity = 0.5;
     average = getAvgPosition(position);
     average[0] -= initialPos[0];
     average[1] -= initialPos[1];
@@ -62,45 +59,19 @@ class Player {
       calibrationPhase = false;
       setUp = true;
       initialPos = getAvgPosition(calibratePosition);
-      //oldTrans = initialPos;
     }
   }
 
   void setUpSensor(List<double> accl, List<double> gyro) {
-     
       if (calibrationPhase) {
         calibratePosition[0].add(gyro[0]);
         calibratePosition[1].add(gyro[2]);
       }
-      
-      /*
-    if (calibrationPhase) {
-      calibratePosition[0].add(accl[2]);
-      calibratePosition[1].add(accl[1]);
-    }*/
   }
 
-  void onSensorEvent(List<double> accl, List<double> gyro) {
-
-    
+  void onSensorEvent(List<double> accl, List<double> gyro) {    
     addValues(gyro[0], gyro[2], position);
-    
-     
-    /*
-    List<double> newTrans = List(2);
-    newTrans[0] = (accl[2] - oldTrans[0]) *(-1);
-    newTrans[1] = accl[1] - oldTrans[1];
-
-    if(isInside(newTrans[0]*sensitivity, 0))
-      playerRect = playerRect.translate(newTrans[0]*sensitivity, 0);
-    if(isInside(0, newTrans[1]*sensitivity))
-      playerRect = playerRect.translate(0, newTrans[1]*sensitivity);
-
-    oldTrans[0] = accl[2];
-    oldTrans[1] = accl[1];
-    */
   }
-
 
   void addValues(double x, double y, List<List<double>> vec) {
     for (var i = 0; i < vec[0].length - 1; i++) {

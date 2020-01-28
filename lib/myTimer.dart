@@ -3,14 +3,14 @@ import 'dart:ui';
 
 import 'package:flame/position.dart';
 import 'package:flame/text_config.dart';
-import 'box-game.dart';
+import 'shootingGame.dart';
 
 Timer timer;
 
 class MyTimer {
   int time;
   bool isFinished = false;
-  final BoxGame game;
+  final ShootingGame game;
   TextConfig config;
 
   MyTimer(this.game, this.time) {
@@ -38,8 +38,7 @@ class MyTimer {
     }      
   }
 
-  void start(){
+  void start() {
     timer = Timer.periodic(Duration(seconds: 1), (Timer t) => decrement());
   }
-
 }
