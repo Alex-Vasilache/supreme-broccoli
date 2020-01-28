@@ -84,7 +84,9 @@ class BoxGame extends Game {
     targets.forEach((Target target) => target.render(canvas));
   }
 
-  void update(double t) {}
+  void update(double t) {
+    player.update(t);
+  }
 
   void resize(Size size) {
     screenSize = size;

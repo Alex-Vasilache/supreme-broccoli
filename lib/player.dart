@@ -5,18 +5,19 @@ import 'package:flame/sprite.dart';
 class Player {
   final BoxGame game;
   Rect playerRect;
-  double sensitivity = 1.5;
+  double sensitivity = 0.5;
   Sprite crosshair =  Sprite('crosshairs_small.png');
   bool setUp = false;
   bool calibrationPhase = false;
-  int size = 3;
+  int size = 4;
   List<double> initialPos = List(2);
   List<List<double>> position = List(2);
   List<List<double>> calibratePosition = List(2);
-
+  List<double> average = List(2);
   List<double> oldTrans = List(2);
 
   Player(this.game, double x, double y) {
+
     playerRect = Rect.fromLTWH(x - game.tileSize, y - game.tileSize, game.tileSize*2, game.tileSize*2);
     position[0] = List(size);
     position[1] = List(size);
@@ -26,13 +27,26 @@ class Player {
     }
     calibratePosition[0] = new List();
     calibratePosition[1] = new List();
+    initialPos[0] = 0;
+    initialPos[1] = 0;
   }
 
   void render(Canvas c) {
     crosshair.renderRect(c, playerRect);
   }
 
-  void update(double t) {}
+  void update(double t) {
+    //sensitivity = 0.5;
+    average = getAvgPosition(position);
+    average[0] -= initialPos[0];
+    average[1] -= initialPos[1];
+    //X coordinate
+    if(isInside(average[0]*sensitivity, 0))
+      playerRect = playerRect.translate(average[0]*sensitivity, 0);
+    //Y coordinate
+    if(isInside(0, average[1]*sensitivity))
+      playerRect = playerRect.translate(0, average[1]*sensitivity);
+  }
 
   bool isInside(double x, double y) {
     if(playerRect.bottom + y > game.screenSize.height) {return false;}
@@ -70,13 +84,7 @@ class Player {
 
     
     addValues(gyro[0], gyro[2], position);
-    List<double> average = getAvgPosition(position);
-    average[0] -= initialPos[0];
-    average[1] -= initialPos[1];
-    if(isInside(average[0]*sensitivity, 0))
-      playerRect = playerRect.translate(average[0]*sensitivity, 0);
-    if(isInside(0, average[1]*sensitivity))
-      playerRect = playerRect.translate(0, average[1]*sensitivity);
+    
      
     /*
     List<double> newTrans = List(2);
