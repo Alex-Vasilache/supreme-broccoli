@@ -1,3 +1,1 @@
-# newprojectx
-
-A shooting game for eSense bloototh headphnones
+A shooting game for eSense Bluetooth headphnones
